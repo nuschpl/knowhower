@@ -1,17 +1,22 @@
-const wasmBytes = new Uint8Array([
-  0x00, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00, 0x01, 0x07, 0x01, 0x60, 
-  0x02, 0x7f, 0x7f, 0x01, 0x7f, 0x03, 0x02, 0x01, 0x00, 0x07, 0x07, 0x01, 
-  0x03, 0x61, 0x64, 0x64, 0x00, 0x00, 0x0a, 0x09, 0x01, 0x07, 0x00, 0x20, 
-  0x00, 0x20, 0x01, 0x6a, 0x0b
-]);
+// Uniwersalna funkcja wykonawcza logiki WebAssembly
+function uruchomKnowhower() {
+    const wasmBytes = new Uint8Array([
+      0x00, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00, 0x01, 0x07, 0x01, 0x60, 
+      0x02, 0x7f, 0x7f, 0x01, 0x7f, 0x03, 0x02, 0x01, 0x00, 0x07, 0x07, 0x01, 
+      0x03, 0x61, 0x64, 0x64, 0x00, 0x00, 0x0a, 0x09, 0x01, 0x07, 0x00, 0x20, 
+      0x00, 0x20, 0x01, 0x6a, 0x0b
+    ]);
 
-console.log("[+] Inicjalizacja środowiska z repozytorium nuschpl/knowhower...");
+    console.log("[+] Inicjalizacja uniwersalnego środowiska nuschpl/knowhower...");
 
-// Kompilacja i uruchomienie Wasm w pamięci RAM przeglądarki
-WebAssembly.instantiate(wasmBytes)
-  .then(results => {
-      const mojaFunkcjaAdd = results.instance.exports.add;
-      console.log("[sukces] WebAssembly załadowany pomyślnie!");
-      console.log("[wynik testu] 20 + 26 =", mojaFunkcjaAdd(20, 26));
-  })
-  .catch(err => console.error("[-] Błąd kompilacji Wasm:", err));
+    WebAssembly.instantiate(wasmBytes)
+      .then(results => {
+          const mojaFunkcjaAdd = results.instance.exports.add;
+          const wynik = mojaFunkcjaAdd(20, 26);
+          console.log("[sukces] WebAssembly wykonany pomyślnie!");
+          console.log("[wynik testu] 20 + 26 =", wynik);
+      })
+      .catch(err => console.error("[-] Błąd Wasm:", err));
+}
+
+uruchomKnowhower();
