@@ -14,12 +14,13 @@ async function loadAndRunWasm(targetSource) {
             const response = await fetch(apiURL);
             const data = await response.json();
             
-            // Konwersja base64 z GitHub API na surowe bajty Uint8Array dla WebAssembly
-            const binaryString = atob(data.content);
+            // Usunięcie znaków nowej linii i spacji z Base64 zwracanego przez GitHub API
+            const base64Clean = data.content.replace(/[\r\n\s]/g, '');
+            const binaryString = atob(base64Clean);
+            
             wasmBytes = new Uint8Array(binaryString.length);
             for (let i = 0; i < binaryString.length; i++) {
-                wasmBytes[i] = binaryString.charCodeAt(i);
-            }
+                wasmBytes[i] = binaryString.charCodeAt(i);            }
         }
         
         // Kompilacja i instancjonowanie modułu Wasm w pamięci RAM
